@@ -1,0 +1,156 @@
+---
+title: "Evidence from the Arabic Spring"
+author: "David Broska"
+abstract: "Is there empirical evidence for Acemoglu and Robinson's model from the Arabic Spring? More precisely, under which conditions does inquality predict a revolution? The analyses will present an overview of the outcomes of the revolution."
+date: "`r Sys.Date()`"
+output: 
+  pdf_document: 
+    number_sections: true
+bibliography: bib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# install.packages("tidyverse")
+# install.packages("rvest")
+# install.packages("lubridate")
+library(tidyverse); library(lubridate)
+```
+
+# Introduction: Revolution and Inequality
+
+"Acemoglu and Robinson [-@acemoglu2006origins] develop framework for analyzing the creation and consolidation of democracy. Different social groups prefer different political institutions because of the way they allocate political power and resources. Thus democracy is preferred by the majority of citizens, but opposed by elites. Dictatorship nevertheless is not stable when citizens can threaten social disorder and revolution. In response, when the costs of repression are sufficiently high and promises of concessions are not credible, elites may be forced to create democracy. By democratizing, elites credibly transfer political power to the citizens, ensuring social stability. Democracy consolidates when elites do not have strong incentive to overthrow it. These processes depend on (1) the strength of civil society, (2) the structure of political institutions, (3) the nature of political and economic crises, (4) the level of economic inequality, (5) the structure of the economy, and (6) the form and extent of globalization."
+
+This article focusses on the fourth aspect: the level of economic inquality. 
+
+-> mention no evidence for the relation of increasing income and changes in democracy
+
+# Revolution constraint
+
+If the fraction of what will be destroyed in a revolution is larger than the share of the income of the rich, the tax rate will be zero and there will not be a revolution.
+
+If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is smaller than what the poor will get when the elite employs a tax rate according to the preferences of the poor, there still will be a revolution.
+
+If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is larger than what the poor will get when the elite employs a tax rate according to the preferences of the poor, the elite will employ a tax rate that prevents a revolution and therefore, there will only be a revolution if that tax rate is lower than the one preferred by the poor and there will not be a revolution if the elite employs a tax rate that is higher/equal to the tax rate preferred by the poor.
+
+# Does the degree of inequality correspond the severeness of revolutionary movements?
+
+In the model of Acemoglu and Robinson [-@acemoglu2006origins] inter-group inequality and revolutions are related by the possible outcomes of a regime-critical movement. In non-democracies citizens obtain only a small fraction of available resources. With a revolution there is a chance the share the income of the economy minus the what is destroyed. There is a lack of useful estimate of the fraction of what will be destroyed in a revolution. However, we can still examine a major result of the result with respect to the Arabic Spring: Inequality is as main driver of revolution. We can relate this conclusion to the severeness of regime-critical movements. In other words: The higher the inequality, the stronger the opposition.
+
+- Moreover, they assume that the inter-group inequality is related to the set of political institutions because an effective thread of revolution initiates the democratization process. Democratization implies a higher influence of the people on the redistribution of the income of an economy. It follows that democratization is attractive for citizens and costly for the elites. In this sense Acomoglu and Robinson emphasize social conflicts between groups as driving force of democratization.
+
+
+```{r, eval=FALSE}
+# download infobox from wikipedia that provides a timeline of major events 
+timeline <- xml2::read_html('https://fr.wikipedia.org/wiki/Printemps_arabe') %>% 
+  rvest::html_nodes(xpath = "//div[@class='infobox_v3']/table") %>% 
+  map(~ rvest::html_table(., fill = T)) %>% 
+  `[[`(2) 
+
+# save file  
+# saveRDS(wiki_infobox, paste0("wiki_fr_timeline", Sys.Date(), ".rds")) 
+```
+
+```{r load data, message=F}
+timeline <- readRDS("wiki_fr_timeline2018-11-08.rds") %>% 
+  rename(Date = X1, Event = X2) %>% 
+  mutate(Date = lubridate::dmy(Date, locale = "fr_FR"), 
+         Event = Event %>% str_remove('Début d[ue] (l[ae])?'))
+
+
+
+gini <- read_csv("world_bank_gini/63230575-efbf-45e6-9b9b-af6357c55121_Data.csv") %>% 
+  rename_all(~ str_replace(., ' ', '_') %>% str_remove('[0-9]{4}_\\[YR') %>% str_remove('\\]$')) %>% 
+  mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?")) %>% 
+  select(Country_Name, matches('[0-9]{4}')) %>% 
+  na_if('..') %>% 
+  mutate_at(vars(matches('[0-9]{4}')), as.numeric) %>%
+  gather(Year, Gini, - Country_Name) %>% 
+  mutate(Year = paste(Year, "-01-01") %>% lubridate::ymd()) 
+
+gini %>% 
+  filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco")) %>% distinct(Country_Name)
+```
+
+
+
+
+```{r}
+# select countries mentioned in the context of arab spring 
+# among those select countries with more than one Gini observation 
+arab_gini <- gini %>% 
+  filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco")) %>% 
+  group_by(Country_Name) %>% 
+  mutate(n = sum(!is.na(Gini))) %>% 
+  ungroup()
+
+arab_gini %>% filter(n == 1) %>% distinct(Country_Name)
+  
+arab_gini %>% filter(n == 0) %>% distinct(Country_Name)
+
+arab_gini_1plus <- arab_gini %>% filter(n >= 1) %>% 
+  filter(!is.na(Gini))
+  
+```
+
+```{r plot gini coefficient over years with major events, message=F, warning=F}
+
+plot_coordinates <- data_frame(xmin = min(timeline$Date),
+                               xmax = max(timeline$Date),
+                               ymin = min(arab_gini_1plus$Gini, na.rm = T),
+                               ymax = max(arab_gini_1plus$Gini, na.rm = T))
+
+ggplot() +
+  # indicate area of major events of arab spring
+  geom_rect(
+    data = plot_coordinates, 
+    fill = "red",
+    alpha= 0.2,
+    mapping = aes(xmin = xmin, xmax = xmax, 
+                  ymin = ymin, ymax = ymax)
+  ) +
+  geom_text(
+    aes(x = xmin + (xmax - xmin) / 2, y = ymin), 
+    label = "Major Events of Arab Spring",
+    angle = 90, vjust = 0.36, size = 3.1, hjust = -0.8, 
+    data = plot_coordinates, 
+    alpha = 0.7) +
+  geom_point(
+    data = arab_gini_1plus, 
+    mapping = aes(x = Year, y = Gini, color = Country_Name)
+  ) +
+  scale_x_date(
+    limits = c(as.Date("1990-01-01"), as.Date("2016-01-01")), 
+    labels = scales::date_format("%Y"), 
+    breaks='2 years') + 
+  xlab("Year") + 
+  ylab("Gini Coefficient") + 
+  labs(color = "Country") +
+  theme_minimal()
+```
+
+
+```{r import data on taxes, message=FALSE}
+taxes_on_income_profits_capital <- read_csv("Taxes_on_income_profits_and_capital_gains_percent_of_revenue/0d52d1bc-db61-47c7-93d3-ee204c304426_Data.csv")
+
+other_taxes <- read_csv("Other_taxes_percent_of_revenue/9b158b9f-a3eb-47e6-8af9-d96474fed701_Data.csv")
+
+costums_and_import_duties <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv")
+
+taxes_on_international_trade <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv")
+```
+
+
+
+Context: 
+
+- Timur Kuran [@kuran2004] discusses the question why the Middel East is relatively underdeveloped in the context of institutions
+- The introduction of "Why Nations Fail" [@acemoglu2012nations] provides a compact summary of the main events of Egypt's Arabic spring
+
+Case Study: 
+
+- "The Power of the Street: Evidence from Egypt’s Arab Spring" is an empirical investigation of the question how change in political power affects economic outcomes [@acemoglu2018arabic].
+
+
+
+# References
