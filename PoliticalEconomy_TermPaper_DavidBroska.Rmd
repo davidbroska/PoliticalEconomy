@@ -12,7 +12,7 @@ bibliography: bib.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 # install.packages("tidyverse")
-# install.packages("rvest")
+# install.packages("rvest") # will also install required package xml2
 # install.packages("lubridate")
 library(tidyverse); library(lubridate)
 ```
@@ -51,37 +51,69 @@ timeline <- xml2::read_html('https://fr.wikipedia.org/wiki/Printemps_arabe') %>%
 # saveRDS(wiki_infobox, paste0("wiki_fr_timeline", Sys.Date(), ".rds")) 
 ```
 
+
+```{r costum functions}
+tidy_world_bank_data <- function(dataframe){
+  
+  df <- dataframe %>% 
+    rename_all(~ str_replace(., ' ', '_') %>% str_remove('[0-9]{4}_\\[YR') %>% str_remove('\\]$')) %>% 
+    mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?")) %>% 
+    select(Country_Name, matches('[0-9]{4}')) %>% 
+    na_if('..') %>% 
+    mutate_at(vars(matches('[0-9]{4}')), as.numeric) %>%
+    gather(Year, value, - Country_Name) %>% 
+    mutate(Year = paste(Year, "-01-01") %>% lubridate::ymd())
+  
+  return(df)
+}
+
+
+filter_arab_countries <- function(dataframe){
+  dataframe %>% 
+    filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco"))
+}
+
+```
+
+
 ```{r load data, message=F}
+# wikipedia data on major events of the Arab Spring
 timeline <- readRDS("wiki_fr_timeline2018-11-08.rds") %>% 
   rename(Date = X1, Event = X2) %>% 
   mutate(Date = lubridate::dmy(Date, locale = "fr_FR"), 
          Event = Event %>% str_remove('Début d[ue] (l[ae])?'))
 
+# load and prepare world bank data with costum function 
+taxes_on_income_profits_capital <- read_csv("Taxes_on_income_profits_and_capital_gains_percent_of_revenue/0d52d1bc-db61-47c7-93d3-ee204c304426_Data.csv") %>% 
+  tidy_world_bank_data() %>% 
+  rename(taxes_on_income_profits_capital = value)
 
+other_taxes <- read_csv("Other_taxes_percent_of_revenue/9b158b9f-a3eb-47e6-8af9-d96474fed701_Data.csv") %>% 
+  tidy_world_bank_data() %>% 
+  rename(other_taxes = value)
+
+costums_and_import_duties <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv") %>% 
+  tidy_world_bank_data() %>% 
+  rename(costums_and_import_duties = value)
+
+taxes_on_international_trade <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv") %>% 
+  tidy_world_bank_data() %>% 
+  rename(taxes_on_international_trade = value)
 
 gini <- read_csv("world_bank_gini/63230575-efbf-45e6-9b9b-af6357c55121_Data.csv") %>% 
-  rename_all(~ str_replace(., ' ', '_') %>% str_remove('[0-9]{4}_\\[YR') %>% str_remove('\\]$')) %>% 
-  mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?")) %>% 
-  select(Country_Name, matches('[0-9]{4}')) %>% 
-  na_if('..') %>% 
-  mutate_at(vars(matches('[0-9]{4}')), as.numeric) %>%
-  gather(Year, Gini, - Country_Name) %>% 
-  mutate(Year = paste(Year, "-01-01") %>% lubridate::ymd()) 
+  tidy_world_bank_data() %>% 
+  rename(gini = value)
 
-gini %>% 
-  filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco")) %>% distinct(Country_Name)
 ```
-
-
 
 
 ```{r}
 # select countries mentioned in the context of arab spring 
-# among those select countries with more than one Gini observation 
+# among those select countries with more than one gini observation 
 arab_gini <- gini %>% 
-  filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco")) %>% 
+  filter_arab_countries() %>% 
   group_by(Country_Name) %>% 
-  mutate(n = sum(!is.na(Gini))) %>% 
+  mutate(n = sum(!is.na(gini))) %>% 
   ungroup()
 
 arab_gini %>% filter(n == 1) %>% distinct(Country_Name)
@@ -89,16 +121,16 @@ arab_gini %>% filter(n == 1) %>% distinct(Country_Name)
 arab_gini %>% filter(n == 0) %>% distinct(Country_Name)
 
 arab_gini_1plus <- arab_gini %>% filter(n >= 1) %>% 
-  filter(!is.na(Gini))
+  filter(!is.na(gini))
   
 ```
 
 ```{r plot gini coefficient over years with major events, message=F, warning=F}
-
+# define x and y coordinates of plot according to the time of the event
 plot_coordinates <- data_frame(xmin = min(timeline$Date),
                                xmax = max(timeline$Date),
-                               ymin = min(arab_gini_1plus$Gini, na.rm = T),
-                               ymax = max(arab_gini_1plus$Gini, na.rm = T))
+                               ymin = min(arab_gini_1plus$gini, na.rm = T),
+                               ymax = max(arab_gini_1plus$gini, na.rm = T))
 
 ggplot() +
   # indicate area of major events of arab spring
@@ -117,7 +149,7 @@ ggplot() +
     alpha = 0.7) +
   geom_point(
     data = arab_gini_1plus, 
-    mapping = aes(x = Year, y = Gini, color = Country_Name)
+    mapping = aes(x = Year, y = gini, color = Country_Name)
   ) +
   scale_x_date(
     limits = c(as.Date("1990-01-01"), as.Date("2016-01-01")), 
@@ -130,15 +162,16 @@ ggplot() +
 ```
 
 
-```{r import data on taxes, message=FALSE}
-taxes_on_income_profits_capital <- read_csv("Taxes_on_income_profits_and_capital_gains_percent_of_revenue/0d52d1bc-db61-47c7-93d3-ee204c304426_Data.csv")
 
-other_taxes <- read_csv("Other_taxes_percent_of_revenue/9b158b9f-a3eb-47e6-8af9-d96474fed701_Data.csv")
-
-costums_and_import_duties <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv")
-
-taxes_on_international_trade <- read_csv("Costums_and_other_import_duties_percent_of_tax_revenue/baee911a-96eb-4e8b-8b87-210625131ecc_Data.csv")
+```{r, warning=F}
+other_taxes %>% 
+  filter_arab_countries() %>% 
+  ggplot(aes(Year, other_taxes, color = Country_Name)) + 
+  geom_point() + 
+  geom_line() +
+  theme_minimal()
 ```
+
 
 
 
