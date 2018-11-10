@@ -53,9 +53,9 @@ timeline <- xml2::read_html('https://fr.wikipedia.org/wiki/Printemps_arabe') %>%
 
 
 ```{r costum functions}
-tidy_world_bank_data <- function(dataframe){
+tidy_world_bank_data <- function(.dataframe){
   
-  df <- dataframe %>% 
+  df <- .dataframe %>% 
     rename_all(~ str_replace(., ' ', '_') %>% str_remove('[0-9]{4}_\\[YR') %>% str_remove('\\]$')) %>% 
     mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?")) %>% 
     select(Country_Name, matches('[0-9]{4}')) %>% 
@@ -67,13 +67,65 @@ tidy_world_bank_data <- function(dataframe){
   return(df)
 }
 
+# select countries mentioned in the context of arab spring 
+filter_arab_countries <- function(.dataframe){
+  
+  arab_countries <- .dataframe %>% 
+    filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco")) 
+  
+  return(arab_countries)
 
-filter_arab_countries <- function(dataframe){
-  dataframe %>% 
-    filter(str_detect(Country_Name, "Egypt|Tunisia|Jordan|Yemen|Bahrain|Libya|Syria|Morocco"))
 }
 
+# define x and y coordinates of plot according to the time of the event
+p_events <- function(.dataframe){
+   
+  plot_coordinates <- data_frame(
+    xmin = min(timeline$Date),
+    xmax = max(timeline$Date),
+    ymin = min(.dataframe[3], na.rm = T),
+    ymax = max(.dataframe[3], na.rm = T)
+  )
+  
+  # indicate area of major events of arab spring
+  aesthetic_layers <- list(
+    geom_rect(inherit.aes = F,
+              data = plot_coordinates,
+              fill = "red",
+              alpha = 0.2,
+              mapping = aes(xmin = xmin, xmax = xmax,
+                            ymin = ymin, ymax = ymax)),
+    geom_text(inherit.aes = F,
+              aes(x = xmin + (xmax - xmin) / 2, y = ymin),
+              label = "Major Events of Arab Spring",
+              angle = 90, vjust = 0.36, size = 3.1, hjust = -0.8,
+              data = plot_coordinates,
+              alpha = 0.7)
+  )
+  
+  return(aesthetic_layers)
+  
+} 
+
 ```
+
+
+
+```{r costum plot aesthetics}
+
+
+# adjust styling of a plot
+p_x_scale <- list(
+  labs(color = "Country"),
+  xlab("Year"),
+  theme_minimal(),
+  scale_x_date(limits = c(as.Date("1990-01-01"), as.Date("2016-01-01")),
+                          labels = scales::date_format("%Y"),
+                          breaks='2 years')
+)
+
+```
+
 
 
 ```{r load data, message=F}
@@ -107,71 +159,68 @@ gini <- read_csv("world_bank_gini/63230575-efbf-45e6-9b9b-af6357c55121_Data.csv"
 ```
 
 
-```{r}
-# select countries mentioned in the context of arab spring 
-# among those select countries with more than one gini observation 
-arab_gini <- gini %>% 
-  filter_arab_countries() %>% 
-  group_by(Country_Name) %>% 
-  mutate(n = sum(!is.na(gini))) %>% 
-  ungroup()
-
-arab_gini %>% filter(n == 1) %>% distinct(Country_Name)
-  
-arab_gini %>% filter(n == 0) %>% distinct(Country_Name)
-
-arab_gini_1plus <- arab_gini %>% filter(n >= 1) %>% 
-  filter(!is.na(gini))
-  
-```
 
 ```{r plot gini coefficient over years with major events, message=F, warning=F}
-# define x and y coordinates of plot according to the time of the event
-plot_coordinates <- data_frame(xmin = min(timeline$Date),
-                               xmax = max(timeline$Date),
-                               ymin = min(arab_gini_1plus$gini, na.rm = T),
-                               ymax = max(arab_gini_1plus$gini, na.rm = T))
-
-ggplot() +
-  # indicate area of major events of arab spring
-  geom_rect(
-    data = plot_coordinates, 
-    fill = "red",
-    alpha= 0.2,
-    mapping = aes(xmin = xmin, xmax = xmax, 
-                  ymin = ymin, ymax = ymax)
-  ) +
-  geom_text(
-    aes(x = xmin + (xmax - xmin) / 2, y = ymin), 
-    label = "Major Events of Arab Spring",
-    angle = 90, vjust = 0.36, size = 3.1, hjust = -0.8, 
-    data = plot_coordinates, 
-    alpha = 0.7) +
-  geom_point(
-    data = arab_gini_1plus, 
-    mapping = aes(x = Year, y = gini, color = Country_Name)
-  ) +
-  scale_x_date(
-    limits = c(as.Date("1990-01-01"), as.Date("2016-01-01")), 
-    labels = scales::date_format("%Y"), 
-    breaks='2 years') + 
-  xlab("Year") + 
-  ylab("Gini Coefficient") + 
-  labs(color = "Country") +
-  theme_minimal()
-```
-
-
-
-```{r, warning=F}
-other_taxes %>% 
+gini_plus1 <- gini %>% 
   filter_arab_countries() %>% 
-  ggplot(aes(Year, other_taxes, color = Country_Name)) + 
+  filter(!is.na(gini))
+
+ggplot(gini_plus1,
+       aes(x = Year, y = gini, color = Country_Name)) +
   geom_point() + 
   geom_line() +
-  theme_minimal()
+  p_x_scale + 
+  p_events(gini_plus1) +
+  ylab("Gini coefficient") 
 ```
 
+
+
+```{r plot other taxes}
+# remove NAs for correct adjustment of x and y axis
+other_taxes_plus1 <- other_taxes %>% 
+  filter_arab_countries() %>% 
+  filter(!is.na(other_taxes))
+
+ggplot(other_taxes_plus1, 
+       aes(x = Year, other_taxes, color = Country_Name)) + 
+  geom_point() + 
+  geom_line() +
+  p_events(other_taxes_plus1) +
+  p_x_scale
+
+```
+
+
+
+```{r}
+# remove NAs for correct adjustment of x and y axis
+taxes_on_income_profits_capital_plus1 <- taxes_on_income_profits_capital %>% 
+  filter_arab_countries() %>% 
+  filter(!is.na(taxes_on_income_profits_capital))
+
+ggplot(taxes_on_income_profits_capital_plus1, 
+       aes(x = Year, taxes_on_income_profits_capital, color = Country_Name)) + 
+  geom_point() + 
+  geom_line() +
+  p_events(taxes_on_income_profits_capital_plus1) +
+  p_x_scale
+```
+
+
+```{r}
+# remove NAs for correct adjustment of x and y axis
+taxes_on_international_trade_plus1 <- taxes_on_international_trade %>% 
+  filter_arab_countries() %>% 
+  filter(!is.na(taxes_on_international_trade))
+
+ggplot(taxes_on_international_trade_plus1, 
+       aes(x = Year, taxes_on_international_trade, color = Country_Name)) + 
+  geom_point() + 
+  geom_line() +
+  p_events(taxes_on_international_trade_plus1) +
+  p_x_scale
+```
 
 
 
