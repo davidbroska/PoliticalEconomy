@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541897343597.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "78539AD6",
+    "lastKnownWriteTime" : 5227333656,
+    "last_content_update" : 1541897343597,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "id" : "716ec535437d4008809056a970f0ffb0",
+        "name" : "gsheet",
+        "title" : "gsheet"
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "object_explorer"
+}

@@ -1,0 +1,150 @@
+"0","# wikipedia data on major events of the Arab Spring"
+"0","timeline <- readRDS(""../wiki_fr_timeline2018-11-08.rds"") %>% "
+"0","  rename(Date = X1, Event = X2) %>% "
+"0","  mutate(Date = lubridate::dmy(Date, locale = ""fr_FR""), "
+"0","         Event = Event %>% str_remove('Début d[ue] (l[ae])?'))"
+"0","# load world bank data "
+"0","wb_data <- list.dirs(path = ""../WorldBankData"", full.names = T) %>% "
+"0","  list.files(full.names = T, pattern = ""Data.csv"") %>% "
+"0","  map_df(~ read_csv(.) %>% tidy_worldbank_data()) "
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"2","Parsed with column specification:
+cols(
+  `Series Name` = col_character(),
+  `Series Code` = col_character(),
+  `Country Name` = col_character(),
+  `Country Code` = col_character(),
+  `1990 [YR1990]` = col_character(),
+  `2000 [YR2000]` = col_character(),
+  `2008 [YR2008]` = col_character(),
+  `2009 [YR2009]` = col_character(),
+  `2010 [YR2010]` = col_character(),
+  `2011 [YR2011]` = col_character(),
+  `2012 [YR2012]` = col_character(),
+  `2013 [YR2013]` = col_character(),
+  `2014 [YR2014]` = col_character(),
+  `2015 [YR2015]` = col_character(),
+  `2016 [YR2016]` = col_character(),
+  `2017 [YR2017]` = col_character()
+)
+"
+"0"," "

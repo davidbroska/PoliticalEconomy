@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541897277292.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "900F280C",
+    "lastKnownWriteTime" : 7954880231060414464,
+    "last_content_update" : 1541897277292,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A6183C84",
+        "caption" : "sheet",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=sheet&cache_key=A6183C84",
+        "displayedObservations" : 16,
+        "environment" : "",
+        "object" : "sheet",
+        "preview" : 0,
+        "totalObservations" : 16,
+        "variables" : 3
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
