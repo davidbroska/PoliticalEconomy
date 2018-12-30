@@ -1,4 +1,0 @@
-"0","details_gi <- read_csv(""../WorldBankData/world_bank_gini/Definition and Source.csv"")"
-"0","wb_data %>% "
-"0","  filter(Series_Name == ""GINI index (World Bank estimate)"") %>% "
-"0","  plot_worldbank_data(outcomes_df) "

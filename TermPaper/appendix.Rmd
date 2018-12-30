@@ -1,0 +1,1 @@
+\includepdf[pages={-},scale=0.9]{../Figures/Naher_Osten_S76.pdf}

@@ -1,4 +1,0 @@
-"0","details_toipacg <- read_csv(""../WorldBankData/Taxes_on_income_profits_and_capital_gains_percent_of_revenue/Definition and Source.csv"") "
-"0","wb_data %>% "
-"0","  filter(Series_Name == ""Taxes on income, profits and capital gains (% of revenue)"") %>% "
-"0","  plot_worldbank_data(outcomes_df) "
