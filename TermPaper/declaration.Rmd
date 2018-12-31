@@ -10,6 +10,7 @@ was carried out in accordance with the requirements of the university's regulati
 
 \vspace{1,3 cm}
 \IfFileExists{Unterschrift.png}{\hspace{1 em} \includegraphics[width=0.3\textwidth]{Unterschrift.png}\\}  
+
 \begin{tabular}{ll} 
 \makebox[0.4\textwidth]{\hrulefill} \\
 \Place, \Date

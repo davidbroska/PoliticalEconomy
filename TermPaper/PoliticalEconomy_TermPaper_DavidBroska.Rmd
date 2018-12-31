@@ -1,7 +1,8 @@
 ---
-# abstract: "Is there empirical evidence for Acemoglu and Robinson's model from the Arabic Spring? More precisely, under which conditions does inquality predict a revolution? The analyses will present an overview of the outcomes of the revolution."
+# abstract: "Is there empirical evidence for Acemoglu and Robinson's model from the Arabic Spring? More precisely, under which conditions does inequality predict a revolution? The analyses will present an overview of the outcomes of the revolution."
 toc: true
-bibliography: ../bib.bib
+bibliography: bib.bib
+geometry: margin=1.6cm
 output: 
   pdf_document:
     number_sections: true
@@ -20,119 +21,11 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 # install.packages("tidyverse")
-# install.packages("rvest") # will also install required package xml2
+# install.packages("rvest") 
 # install.packages("lubridate")
 # install.packages("wesanderson")
 library(tidyverse); library(lubridate); library(wesanderson)
 ```
-
-\newpage 
-
-# To Do (include points based on literature)
-
-- structure of the economy / factor endowment
-    - determines who easy it is to repress / redistribute
-    - landowners are easier to tax because they cannot move their capital
-    - landowners are on average richer than capitalists
-- globalization
-- which institutions are in place? What is their nature? (de facto, de jure) confer Why nations fail 
-- Collective Action Problem (!) 
-    - In the Arab Spring, it was solved also by social media, cf. Acemoglue 2018 Evidence from Arab Spring
-- Cost and Benefits of Rev / Concessions
-    - GDP per capita
-    - GDP according to factor endowment
-    - Unemployment per group which participated in the revolution -> no decrease for unemployment of the youth population -> hard to find evidence
-    - Problematic of finding evidence?
-    - Groups (demostrants, military, ...)
-    - political identities
-    - Reliance on export -> instability (Diversitfiation )
-- international trade: dependence on international trade
-    
-    
-- Fragen spezifizieren
-- general weakness of civil society 
-- institutions (does an opposition exist?)
-
-
-# Introduction: Problem Statement & Hypotheses
-
-Economic aspects have been one of the main explanations for the political unrest during the Arab Spring used not only by many scholars, but also used by the media. The Economist's "Shoethrower's Index" is a noteworthy example. Youth population, years of government in power, corruption, GDP per capita, and several other indicators were assumed to measure the Arab countries’ vulnerability for a revolution.[^shoethrower_link] 
-It turns out that the potential for unrest in the Arab world 2010 were highest in Yemen, Libya, Egypt and Syria, while countries like Qatar, Kuwait, United Arab Emirates and Lebanon had the lowest scores (The Economist 2011:26). Even though the index lacks of theoretical backing, not only its predictions of social unrest are empirically supported (see Appendix[^appendix] of this Paper). The scientific literature supports some of the indicators used by the Economist (see Chapter). The observation that the economic situation is seems to be a suitable indicator for social unrest is the starting point of this paper. 
-
-[^shoethrower_link]: http://www.geocurrents.info/geopolitics/the-economists-shoe-throwers-index-a-success
-
-However, the motivation is to study the economic origins and outcomes of the Arab Spring from the perspective the more systematic approach of Acemoglu and Robinson's [-@acemoglu2006origins] "Economic Origins of Dictatorship and Democracy". Their account provides a theoretical framework for analyzing the creation and consolidation of different political institutions from a game theoretical perspective. It implies strategical behavior of social groups with respect to the way they allocate political power and resources. Democracy, on the one hand, is preferred by the majority of citizens due their gain of political influence on how ressources are distributed in a society. On the other hand, autocratic regimes are preferred by the elites because ressources and power are centered among few individuals. The question under which conditions these regime changes occur and consolidate is interesting both theoretically and empirically. The focus of this paper is to relate Acemoglu and Robinson's [-@acemoglu2006origins] theoretical account to empirical findings on economic origins and outcomes of the Arabic Spring from existing literature and key economic indicators taken from the World Bank's database. More specificly, the interest of this paper is twofold: 
-
-1. Does the degree of inequality correspond to the severeness of revolutionary movements? Acemoglu and Robinson's framework suggest that only with a sufficiently high economic incentive the poor can solve the collective action problem. In other words: In countries with higher economic welfare accuring to the poor, policital concessions by the incumbent regime were effective to calm down social unrest. In the contrary, lower economic welfare should be related to a higher degree of social unrest (local protests, nationwide protests, regime changes). 
-2. What are the economic consequences of a revolution? In the model of Acemoglu and Robinson individuals behave strategically under the conditions of complete information. It follows, that successful regime transitions towards more democratic political institutions should be related to higher share of available ressources accuring to the poor in the years after the revolution. (Successfull: Tunesia, Unsucessful: Egypt, ...)
-
-Since were are not in the domain of controlled experiments we cannot replay the dynamics of the Arabic Spring as if the regime changes and the political or economic concessions did not happen. Therefore, this paper can neither trace back the emergence of regime critical movements to specific economic conditions before the revolution nor explain the economic developments as the result of the events of the Arabic Spring. Still, this interpretative approach provides evidence for Acemoglu and Robinson's theoretical framework that can be put to test with a more elaborated methodological approach.
-
-[^appendix]: The appendix of this paper contains an overview of the major events and outcomes of the Arab Spring for each country provided by the "Bundeszentrale für politische Bildung", a federal public authority providing citizenship education and information on political issues for all people in Germany.
-
-\newpage
-
-
-<!-- # Literature -->
-
-<!-- According to Acemoglu and Robinson [-@acemoglu2006origins] regime transitions and their consolidation depend on political and economic crises, the strenght of civil society, political institutions, the level of economic inequality, the structure of the economy and the form and extent of globalization. The purpose of this section is to review existing literature on the Arabic Spring in order to identify preconditions and outcomes of the Arabic Spring. -->
-
-<!-- ## Preconditions -->
-
-<!-- - Economic impoverishment of the majority of the people -->
-<!-- - Deteriorating food security and living standards (Breisinger et al. 2011) -->
-<!-- - High rates of unemployment, especially among the youth population (Salih 2013: 187; Hoffman and Jamal 2012: 169f, 184f).  -->
-<!-- - Lack of economic free in these countries. The government policies required tremendous administrative steps to set up a formal business (Martin 2012: 94f).  -->
-
-<!-- - The economic impoverishment of the majority of the people, staggering food prices, high rates of unemployment, and especially among the large youth population - are all regarded as plausible roots and causes for the Arab Spring (Salih 2013:187).  -->
-<!-- - Especially the deteriorating food security and living standards in the region is said to have led to the uprisings (Breisinger et al. 2011). Another article focuses on the youth population and discusses the Arab Spring in terms of a “youth revolution”.  -->
-<!-- - The high unemployment among the young people in this region is seen as a major problem, with youth unemployment as high as 80 % in some areas. The overall conclusion is that frustration with the lack of jobs makes the youth population more prone to protest (Hoffman & Jamal 2012:169f, 184f).  -->
-<!-- - Emmanuel Martin claims that one of the more forgotten causes for the Arab Spring was the lack of economic freedom in these countries. The government policies required tremendous administrative steps to set up a formal business, which Martin sees as a part of the political oppression and authoritarianism in these countries (Martin 2012:94f)." from [@carbonnier: 17 f.] -->
-
-
-<!-- ## Outcomes -->
-
-<!-- ## Minor changes  -->
-
-<!-- Almost at the same time as in Egypt, protests broke out in **Jordan** on January 21, 2011 (UCDP 2011). The protesters were demanding cuts in food and fuel prices, electoral reforms, and more power granted to the parliament. There were, as well, complaints about rampant poverty, high unemployment, and corruption in the country. King Abdullah II, in response, replaced his prime minister, and formed two commissions to study possible electoral reforms and constitutional amendments. He did as well offer a $125 million package of subsidies for fuel, sugar, and other products. There have been occasional violent demonstrations in Jordan, but so far the government’s concessions have managed to keep off most instability, leaving king Abdullah II still in power (BBC 2012; Jones 2013; Helfont & Helfont 2011; Miller 2011:34). -->
-
-<!-- **Lebanon** faced a different sort of demonstrations amid the Arab Spring. While the key slogan in Egypt and Tunisia had been "The people wants to topple the regime", the protest movement in Lebanon adopted a slightly different slogan, "The people wants to topple the sectarian regime". On 27 February 2011, the anti- sectarian movement, as it was referred to, held its first demonstration. The protests were not as much directed against the president, the prime minister or the government, but it was believed that the symbols of powers were located outside the official state institutions (Hermez 2011). However, the movement failed to attract a significant numbers of participants, and in spite of repeated calls, few people showed up for the demonstrations (Khashan 2011). -->
-
-<!-- **Morocco** saw its first protest on February 20, 2011, and demonstrations soon spread and sprung up in over 50 cities (Badimon 2013:207; Miller 2011:36). On March 9, 2011, King Mohammed VI held an extraordinary televised speech to the Moroccan people, in which he promised "a new charter between the throne and the people" and outlined a so called “package of comprehensive constitutional amendments”. The new constitution was to guarantee rule of law and an enhanced role for the prime minister, in practise it would reduce the king’s power and increase that of the elected government. On June 17, 2011, the new constitution was released and in a referendum two weeks later it was passed (Traub 2012:43; Maddy-Weitzman 2012). Whether the concessions done by the Mohammed VI were sincere and will ultimately lead to a political system in line with a constitutional monarchy, is yet to be seen. It is still safe to say that Morocco did not face the same turmoil and uprisings as other countries during the Arab Spring. -->
-
-<!-- ## Major changes -->
-
-<!-- In January 2011, protests broke out in Egypt. After eighteen days of protests in Cairo and in other cities, President Hosni Mubarak was forced to step down on February 11, 2011. This ended Mubarak’s 30 years of power in Egypt. According to the Egyptian government fact-finding panel, 846 people were killed and more than 6,400 were injured during the uprisings. (BBC 2012; Salih 2013:193). -->
-
-<!-- As mentioned in the introduction, the protests in Tunisia began on December 18, 2010. This was sparked by the self-immolation of the vegetable seller Mohamed Bouazizi in the city of Sidi Bouzid. This was done as a political protest. Pro-democratic and anti-regime protests rose up across Tunisia, in what came to be known as the “Jasmine Revolution”. In the violent clashes around 300 people died during the unrest. President Zine el-Abidine Ben Ali was toppled, after 23 years in power, on the January 14 2011 (BBC 2012; Schraeder & Redissi 2011). -->
-
-<!-- In Yemen demonstrations started on January 27, 2011, calling for the end of president Ali Abdullah Saleh’s 33-year rule. The president announced at a very early stage that he would not seek re-election and that he would not pass over power to his son. However this did not stop the protests, which became more frequent and widespread. It was also met with a deadly crackdown by the security forces and supporters of the president. In April 2011, Saleh refused to sign a GCC-brokered deal to hand over power in return for immunity from prosecution. This prompted the head of the Hashid tribal federation, Sheikh Sadiq al-Ahmar, to declare his support for the opposition. Heavy clashes between security forces and armed tribesmen occurred in the capital Sanaa, leaving dozens of people dead. In June, president Saleh was seriously injured by a bomb explosion and was forced to leave the country to seek medical treatment. He returned to Yemen in September amid a new wave of violence. In October 2011, the UN Security Council urged the president to agree to the GCC-brokered deal. President Saleh signed the deal November 23, and formally ceded power two days later (BBC 2012; Salih 2013:193-195). -->
-
-
-
-
-
-<!-- Their model suggests that regime changes are likely to occur when citizens can threaten social disorder.  -->
-
-<!-- These transitions consolidate when when elites do not have strong incentives to interfere.  -->
-
-<!-- The argument of economic incentives equally applies to the elite's preference of non-democratic regimes.  -->
-
-
-<!-- On the other hand, Dictatorship nevertheless is not stable  In response, when the costs of repression are sufficiently high and promises of concessions are not credible, elites may be forced to create democracy. By democratizing, elites credibly transfer political power to the citizens, ensuring social stability. Democracy consolidates when elites do not have strong incentive to overthrow it. These processes depend on (1) the strength of civil society, (2) the structure of political institutions, (3) the nature of political and economic crises, (4) the level of economic inequality, (5) the structure of the economy, and (6) the form and extent of globalization." (from book description of EOoDaD) -->
-
-<!-- This Term Paper article focusses on the fourth aspect: the level of economic inquality. (Mention no evidence for the relation of increasing income and changes in democracy.) In the model of Acemoglu and Robinson [-@acemoglu2006origins] inter-group inequality and revolutions are related by the possible outcomes of a regime-critical movement. In non-democracies citizens obtain only a small fraction of available resources. With a revolution there is a chance the share the income of the economy minus the what is destroyed. In other words: Does the degree of inequality correspond the severeness of revolutionary movements? -->
-
- 
-
-
-<!-- "Economic Origins of Dictatorship and Democracy" proposes a game theoretical account that implies strategical behavior with respect to political unrest. There are three cases of a revolution:  -->
-
-<!-- - "If the fraction of what will be destroyed in a revolution is larger than the share of the income of the rich, the tax rate will be zero and there will not be a revolution. -->
-<!-- - If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is smaller than what the poor will get when the elite employs a tax rate according to the preferences of the poor, there still will be a revolution. -->
-<!-- - If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is larger than what the poor will get when the elite employs a tax rate according to the preferences of the poor, the elite will employ a tax rate that prevents a revolution and therefore, there will only be a revolution if that tax rate is lower than the one preferred by the poor and there will not be a revolution if the elite employs a tax rate that is higher/equal to the tax rate preferred by the poor." (from slides ) -->
-
-
 
 
 ```{r costum functions}
@@ -141,7 +34,7 @@ tidy_worldbank_data <- function(.dataframe){
   
   df <- .dataframe %>% 
     rename_all(~ str_replace(., ' ', '_') %>% str_remove('[0-9]{4}_\\[YR') %>% str_remove('\\]$')) %>% 
-    mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?")) %>% 
+    mutate(Country_Name = Country_Name %>% str_remove("(n )?(, )?(Arab )?Rep.(blic)?") %>% str_remove("United Arab ")) %>% 
     select(Country_Name, Country_Code, Series_Name, matches('[0-9]{4}')) %>% 
     na_if('..') %>% 
     mutate_at(vars(matches('[0-9]{4}')), as.numeric) %>%
@@ -181,7 +74,9 @@ plot_worldbank_data <- function(.dataframe, .outcomes_df){
   more1_observation <- .dataframe %>%
     filter(str_detect(Country_Name, paste0(country_names, collapse = "|")), 
           !is.na(.dataframe[value_col])) %>% 
-    left_join(.outcomes_df %>% select(-Country_Name) , by = "Country_Code")
+    left_join(.outcomes_df %>% 
+                select(-Country_Name) %>% 
+                mutate(Overall_Consequences = Overall_Consequences %>% str_replace(" ", "\n")), by = "Country_Code")
   
   # define x and y coordinates of plot according to the time of the event
   plot_coordinates <- data_frame(
@@ -252,7 +147,7 @@ outcomes_df <- googlesheets::gs_key("1HcxeQTFjCeNM5yWhh94XMLUVzj7GaL4F8Hjqwy8tOy
   filter(!is.na(Overall_Consequences))
 
 # save file  
-# saveRDS(outcomes_df, paste0("../gsheet_outcomes_", Sys.Date(), ".rds")) 
+# saveRDS(outcomes_df, paste0("../Data/gsheet_outcomes_", Sys.Date(), ".rds")) 
 
 
 ```
@@ -260,27 +155,230 @@ outcomes_df <- googlesheets::gs_key("1HcxeQTFjCeNM5yWhh94XMLUVzj7GaL4F8Hjqwy8tOy
 
 ```{r load data}
 
-outcomes_df <- readRDS('../gsheet_outcomes_2018-11-11.rds') %>% 
+outcomes_df <- readRDS('../Data/gsheet_outcomes_2018-12-31.rds') %>% 
   filter(!is.na(Overall_Consequences))
 
-
 # wikipedia data on major events of the Arab Spring
-timeline <- readRDS("../wiki_fr_timeline2018-11-08.rds") %>% 
+timeline <- readRDS("../Data/wiki_fr_timeline2018-11-08.rds") %>% 
   rename(Date = X1, Event = X2) %>% 
   mutate(Date = lubridate::dmy(Date, locale = "fr_FR"), 
          Event = Event %>% str_remove('Début d[ue] (l[ae])?'))
 
 # load world bank data 
-wb_data <- list.dirs(path = "../WorldBankData", full.names = T) %>% 
+wb_data <- list.dirs(path = "../Data/WorldBankData", full.names = T) %>% 
   list.files(full.names = T, pattern = "Data.csv") %>% 
   map_df(~ read_csv(.) %>% tidy_worldbank_data()) 
  
 ```
 
 
+\newpage 
+
+# To Do (include points based on literature)
+
+- structure of the economy / factor endowment
+    - determines who easy it is to repress / redistribute
+    - landowners are easier to tax because they cannot move their capital
+    - landowners are on average richer than capitalists
+- globalization
+- which institutions are in place? What is their nature? (de facto, de jure) confer Why nations fail 
+- Collective Action Problem (!) 
+    - In the Arab Spring, it was solved also by social media, cf. Acemoglue 2018 Evidence from Arab Spring
+- Cost and Benefits of Rev / Concessions
+    - GDP per capita
+    - GDP according to factor endowment
+    - Unemployment per group which participated in the revolution -> no decrease for unemployment of the youth population -> hard to find evidence
+    - Problematic of finding evidence?
+    - Groups (demonstrators, military, ...)
+    - political identities
+    - Reliance on export -> instability (Diversification )
+- international trade: dependence on international trade
+    
+    
+- Fragen spezifizieren
+- general weakness of civil society 
+- institutions (does an opposition exist?)
+\newpage
+
+# Introduction
+
+The Arab Spring denotes a variety of regime critical protests, uprisings and armed rebellions that differ not only with respect to their magnitude ranging from local to nationwide activities. There have also been different outcomes in the countries, varying from minor governmental concessions in order to placate the people, to stronger reactions where the government has been overthrown. Others were descending into civil war, and yet other countries reverted to autocratic regimes. Consequently, there was not only a high variability in the degree of social unrest among the affected countries. There are also remarkable difference regarding how the distribution of political power of economic resources was changed during the events of the Arab Spring. How can those difference among countries be explained?
+
+Acemoglu and Robinson's [-@acemoglu2006origins] "Economic Origins of Dictatorship and Democracy" account is promomising point of departure. First, this paper seeks to apply the theoretical framework of Acemoglu & Robinson [-@acemoglu2006origins] in order to better understand under which circumstances regime ciritical movements occur. Second, this paper seeks to put their theoretical considerations into an empirical test. 
+
+Tunisia, for example, experienced severe protests among the civil society that were undeniably accompanied by a transition towards a set of more democratic institutions. Similarily, there were also severe protests in Egypt that were followed by a government change. How to explain the differences among those countries regarding the severeness of the regime critical movements and the outcomes of the Arab Spring?
+
+However, there is no evidence that the regime change actually improved the situation of the population in terms of economic welfare or political influence. 
+
+In contrast to these cases Djibouti, Jordan, Kuwait, Moroco, Mauretania and Oman experienced protests 
+
+
+Most interestingly, the monarchies of the United Arab Emirates and Katar experienced no protests, but reacted with a raise in wages and provided new jobs in the public sector.  there were only minor protests in Saudi Arabia and Bahrain that were violently repressed by the incumbent regimes and there were no concessions made.
+
+
+
+In fact, economic aspects have been one of the main explanations for the political unrest during the Arab Spring used not only by many scholars, but also by the media. \textit{The Economist}'s "Shoe thrower's Index" is a noteworthy example. Youth population, years of government in power, corruption, GDP per capita, and several other indicators were assumed to measure the Arab countries’ vulnerability for a revolution.[^shoethrower_link] 
+It turns out that the potential for unrest in the Arab world in 2010 was highest in Yemen, Libya, Egypt and Syria, while countries like Qatar, Kuwait, United Arab Emirates and Lebanon had the lowest scores (The Economist 2011: 26). Even though the index lacks of theoretical backing, not only its predictions of social unrest are empirically supported (see Appendix[^appendix] of this Paper). The scientific literature supports some of the indicators used by the Economist (see Chapter). Consequently, the economic situation seems indeed to be a suitable indicator for social unrest. However, the economic origins of the regime ciritical movements need to be studied in more detail and from the perspective of a more systematic approach. 
+Moreover, it remains unclear
+
+
+
+
+The question under which conditions these regime changes occur and consolidate is interesting both theoretically and empirically. 
+
+The focus of this paper is to relate Acemoglu and Robinson's [-@acemoglu2006origins] theoretical account to empirical findings on economic origins and outcomes of the Arabic Spring from existing literature and key economic indicators taken from the World Bank's database. Still, this interpretative approach provides evidence for Acemoglu and Robinson's theoretical framework that can be put to test with a more elaborated methodological approach.
+
+- mention that I will mainly discuss nondemocracies 
+- power centretered in small groups closely connected to Mubarak in Egypt or Ben Ali in Tunesia, people were not given enough
+- concessions from the Mubarak regime were not credibel
+- ultimately, like in the case of britain transitions to democracy mean economic growth 
+- this is unlike the situation were power shifts simply from one elite group to another
+
+Monarchies 
+- Oman (Sultan)
+-
+
+
+# Economic Origins of Democracy and Dictatorship
+
+Acemoglu and Robinson [-@acemoglu2006origins] provide a theoretical framework for analyzing the creation and consolidation of different political institutions from a game theoretical perspective. It implies strategical behavior of social groups with respect to the way they allocate political power and resources in a long term perspective. Democracy, on the one hand, is preferred by the majority of citizens due their gain of political influence on how resources are distributed in a society. On the other hand, nondemocracies regimes are preferred by the elites because resources and power are centered among few individuals. 
+
+## The Revolution Constraint
+
+In the absence of any checks on their power the elites would be eligible to choose the policies that are most beneficial to them (Ibid, 120). Since individual economic incentive determine political attitudes there would be no redistribution to the poor or the middle classes. In the terminology of Acemoglu and Robinson's model the elites, denoted by $\delta$, would set set tax rate $\tau^r$ equal to $0$.
+However, the extent to which the elites are able to profit from their political power is restricted by the danger that other groups might attempt to overthrow the incumbent regime. It follows that the danger of a revolution puts a constraint on the policies of the elites in nondemocracy. In the first place, Acemoglu and Robinson argue that the likelyhood of a revolution depends on the citizens income $y^p$. In a nondemocracy $N$ the tax rate $\tau^r$ is set by the elites so that the utility of the poor is given by
+$$V^p=y^p=(y^p|\tau^N = \tau^r).$$
+However, revolutions are costly not only for the elite that looses their privileges in the existing regime. It is reasonable that revolutionary events imply disorder and distruction, so that the productivity of the economy shrinks. Stated differently, there is a fraction $\mu$ that is destroyed during the revolution so that the rest $1-\mu$ can be distributed among the poor. Thus, the utility $V^P(R, \mu)$ of a poor agent in the postrevolutionary society, condition on that fraction $\mu$, is given by
+$$ V^P(R, \mu)=\frac{(1-\mu)\bar{y}}{1-\delta}.$$
+This inidicates, that total income available denoted by $(1-\mu)\bar{y}$ will be devided among the poor population $1-\delta$. From these equation Acemoglu and Robinson derive the first result for nondemocracies: The extent to which the elites can define policies to their benefit is restricted by the utility of the poor. In other words, the revolution constraint binds if the potential income of a poor in a postrevolutionary society is greater than his current income: 
+$$ \frac{(1-\mu)\bar{y}}{1-\delta} > y^p$$
+This implies that individuals behave strategically under conditions of complete information. On the one hand, this assumption allows the authors to create a model that allows to make prediction about the likelyhood of a revolution based on economic indicators. On the other hand, the flexibility of the model achieved by this reduction of complexity requires the model to be tested empirically. Would the model have predicted the revolutionary movements of the Arab Spring?
+
+```{r plot GDP per capita, fig.cap=details_gdp_capita %>% pull(2)}
+details_gdp_capita <- read_csv("../Data/WorldBankData/GDP_per_capita/Definition and Source.csv")
+
+
+wb_data %>% 
+  filter(Series_Name=="GDP per capita (current US$)") %>% 
+  plot_worldbank_data(outcomes_df) +
+  scale_x_date(limits = c(as.Date("1990-01-01"), as.Date("2017-01-01")),
+               labels = scales::date_format("%Y"),
+               breaks = '2 years')
+```
+
+## Collective Action Problem
+
+
+
+
+Therefore, in nondemocracies the elites might have the \textit{de jure} political power that they allocate from the incumbent system. Nevertheless, citizens may obtain the \textit{de facto} political power if they are able to coordinate their actions. 
+
+
+In order to prevent a revolution and to retain their power the elites will give political or economic concessions to majority. Thus, their model suggests that transitions towards democratic occur when the elites are forced to change the system to the benefit of the majority. These theoretical considerations allow to derive three hypotheseses.
+
+1. Since concessions that change institutions in a long term perspective towards democracy imply major losses to the elites, they should occur less frequently than policies that can be easily withdrawn when the de facto political shifts away from the citizens. (Mention period for observation)
+2. Does the degree of inequality correspond to the severeness of revolutionary movements? Acemoglu and Robinson's model implies that only with a sufficiently high economic incentive the poor can solve the collective action problem. In other words: In countries with higher economic welfare accruing to the poor, political concessions by the incumbent regime were effective to calm down social unrest. In the contrary, lower economic welfare should be related to a higher degree of social unrest. 
+3. What are the economic consequences of a revolution? In the model of Acemoglu and Robinson individuals behave strategically under the conditions of complete information. It follows, that successful regime transitions towards more democratic political institutions should be related to higher share of available resources accruing to the poor in the years after the revolution. (Successful: Tunisia, Unsuccessful: Egypt, ...)
+
+Additionally, transitions from autocratic regimes towards a set of more democratic institutions occur when the de facto political power in the hands of the poor. This is only the case when they are able resolve the collective action problem.
+
+Groups derived from theoretical considerations (main building blocks) and devided by major and minor protests (successful or unsuccessful resolvement of the collective action problem)
+- economic incentives
+- different interests of political outcomes
+- Political institutions play a central role in solving problems of commitment
+by affecting the future distribution of de jure political power.
+
+
+
+The revolution is costly also for the citizens. 
+
+
+
+
+
+
+
+[^shoethrower_link]: http://www.geocurrents.info/geopolitics/the-economists-shoe-throwers-index-a-success
+
+
+
+More specifically, the interest of this paper is twofold: 
+
+
+
+
+
+[^appendix]: The appendix of this paper contains an overview of the major events and outcomes of the Arab Spring for each country provided by the "Bundeszentrale für politische Bildung", a federal public authority providing citizenship education and information on political issues for all people in Germany.
+
 ```{r include bpb infographic}
 knitr::include_graphics("../Figures/bpb_arabischer_fruehling.jpg")
 ```
+
+\newpage
+
+
+<!-- # Literature -->
+
+<!-- According to Acemoglu and Robinson [-@acemoglu2006origins] regime transitions and their consolidation depend on political and economic crises, the strenght of civil society, political institutions, the level of economic inequality, the structure of the economy and the form and extent of globalization. The purpose of this section is to review existing literature on the Arabic Spring in order to identify preconditions and outcomes of the Arabic Spring. -->
+
+<!-- ## Preconditions -->
+
+<!-- - Economic impoverishment of the majority of the people -->
+<!-- - Deteriorating food security and living standards (Breisinger et al. 2011) -->
+<!-- - High rates of unemployment, especially among the youth population (Salih 2013: 187; Hoffman and Jamal 2012: 169f, 184f).  -->
+<!-- - Lack of economic free in these countries. The government policies required tremendous administrative steps to set up a formal business (Martin 2012: 94f).  -->
+
+<!-- - The economic impoverishment of the majority of the people, staggering food prices, high rates of unemployment, and especially among the large youth population - are all regarded as plausible roots and causes for the Arab Spring (Salih 2013:187).  -->
+<!-- - Especially the deteriorating food security and living standards in the region is said to have led to the uprisings (Breisinger et al. 2011). Another article focuses on the youth population and discusses the Arab Spring in terms of a “youth revolution”.  -->
+<!-- - The high unemployment among the young people in this region is seen as a major problem, with youth unemployment as high as 80 % in some areas. The overall conclusion is that frustration with the lack of jobs makes the youth population more prone to protest (Hoffman & Jamal 2012:169f, 184f).  -->
+<!-- - Emmanuel Martin claims that one of the more forgotten causes for the Arab Spring was the lack of economic freedom in these countries. The government policies required tremendous administrative steps to set up a formal business, which Martin sees as a part of the political oppression and authoritarianism in these countries (Martin 2012:94f)." from [@carbonnier: 17 f.] -->
+
+
+<!-- ## Outcomes -->
+
+<!-- ## Minor changes  -->
+
+<!-- Almost at the same time as in Egypt, protests broke out in **Jordan** on January 21, 2011 (UCDP 2011). The protesters were demanding cuts in food and fuel prices, electoral reforms, and more power granted to the parliament. There were, as well, complaints about rampant poverty, high unemployment, and corruption in the country. King Abdullah II, in response, replaced his prime minister, and formed two commissions to study possible electoral reforms and constitutional amendments. He did as well offer a $125 million package of subsidies for fuel, sugar, and other products. There have been occasional violent demonstrations in Jordan, but so far the government’s concessions have managed to keep off most instability, leaving king Abdullah II still in power (BBC 2012; Jones 2013; Helfont & Helfont 2011; Miller 2011:34). -->
+
+<!-- **Lebanon** faced a different sort of demonstrations amid the Arab Spring. While the key slogan in Egypt and Tunisia had been "The people wants to topple the regime", the protest movement in Lebanon adopted a slightly different slogan, "The people wants to topple the sectarian regime". On 27 February 2011, the anti- sectarian movement, as it was referred to, held its first demonstration. The protests were not as much directed against the president, the prime minister or the government, but it was believed that the symbols of powers were located outside the official state institutions (Hermez 2011). However, the movement failed to attract a significant numbers of participants, and in spite of repeated calls, few people showed up for the demonstrations (Khashan 2011). -->
+
+<!-- **Morocco** saw its first protest on February 20, 2011, and demonstrations soon spread and sprung up in over 50 cities (Badimon 2013:207; Miller 2011:36). On March 9, 2011, King Mohammed VI held an extraordinary televised speech to the Moroccan people, in which he promised "a new charter between the throne and the people" and outlined a so called “package of comprehensive constitutional amendments”. The new constitution was to guarantee rule of law and an enhanced role for the prime minister, in practise it would reduce the king’s power and increase that of the elected government. On June 17, 2011, the new constitution was released and in a referendum two weeks later it was passed (Traub 2012:43; Maddy-Weitzman 2012). Whether the concessions done by the Mohammed VI were sincere and will ultimately lead to a political system in line with a constitutional monarchy, is yet to be seen. It is still safe to say that Morocco did not face the same turmoil and uprisings as other countries during the Arab Spring. -->
+
+<!-- ## Major changes -->
+
+<!-- In January 2011, protests broke out in Egypt. After eighteen days of protests in Cairo and in other cities, President Hosni Mubarak was forced to step down on February 11, 2011. This ended Mubarak’s 30 years of power in Egypt. According to the Egyptian government fact-finding panel, 846 people were killed and more than 6,400 were injured during the uprisings. (BBC 2012; Salih 2013:193). -->
+
+<!-- As mentioned in the introduction, the protests in Tunisia began on December 18, 2010. This was sparked by the self-immolation of the vegetable seller Mohamed Bouazizi in the city of Sidi Bouzid. This was done as a political protest. Pro-democratic and anti-regime protests rose up across Tunisia, in what came to be known as the “Jasmine Revolution”. In the violent clashes around 300 people died during the unrest. President Zine el-Abidine Ben Ali was toppled, after 23 years in power, on the January 14 2011 (BBC 2012; Schraeder & Redissi 2011). -->
+
+<!-- In Yemen demonstrations started on January 27, 2011, calling for the end of president Ali Abdullah Saleh’s 33-year rule. The president announced at a very early stage that he would not seek re-election and that he would not pass over power to his son. However this did not stop the protests, which became more frequent and widespread. It was also met with a deadly crackdown by the security forces and supporters of the president. In April 2011, Saleh refused to sign a GCC-brokered deal to hand over power in return for immunity from prosecution. This prompted the head of the Hashid tribal federation, Sheikh Sadiq al-Ahmar, to declare his support for the opposition. Heavy clashes between security forces and armed tribesmen occurred in the capital Sanaa, leaving dozens of people dead. In June, president Saleh was seriously injured by a bomb explosion and was forced to leave the country to seek medical treatment. He returned to Yemen in September amid a new wave of violence. In October 2011, the UN Security Council urged the president to agree to the GCC-brokered deal. President Saleh signed the deal November 23, and formally ceded power two days later (BBC 2012; Salih 2013:193-195). -->
+
+
+
+
+
+<!-- Their model suggests that regime changes are likely to occur when citizens can threaten social disorder.  -->
+
+<!-- These transitions consolidate when when elites do not have strong incentives to interfere.  -->
+
+<!-- The argument of economic incentives equally applies to the elite's preference of non-democratic regimes.  -->
+
+
+<!-- On the other hand, Dictatorship nevertheless is not stable  In response, when the costs of repression are sufficiently high and promises of concessions are not credible, elites may be forced to create democracy. By democratizing, elites credibly transfer political power to the citizens, ensuring social stability. Democracy consolidates when elites do not have strong incentive to overthrow it. These processes depend on (1) the strength of civil society, (2) the structure of political institutions, (3) the nature of political and economic crises, (4) the level of economic inequality, (5) the structure of the economy, and (6) the form and extent of globalization." (from book description of EOoDaD) -->
+
+<!-- This Term Paper article focusses on the fourth aspect: the level of economic inquality. (Mention no evidence for the relation of increasing income and changes in democracy.) In the model of Acemoglu and Robinson [-@acemoglu2006origins] inter-group inequality and revolutions are related by the possible outcomes of a regime-critical movement. In non-democracies citizens obtain only a small fraction of available resources. With a revolution there is a chance the share the income of the economy minus the what is destroyed. In other words: Does the degree of inequality correspond the severeness of revolutionary movements? -->
+
+ 
+
+
+<!-- "Economic Origins of Dictatorship and Democracy" proposes a game theoretical account that implies strategical behavior with respect to political unrest. There are three cases of a revolution:  -->
+
+<!-- - "If the fraction of what will be destroyed in a revolution is larger than the share of the income of the rich, the tax rate will be zero and there will not be a revolution. -->
+<!-- - If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is smaller than what the poor will get when the elite employs a tax rate according to the preferences of the poor, there still will be a revolution. -->
+<!-- - If the fraction of what will be destroyed in a revolution is smaller than the share of income of the rich and this fraction is larger than what the poor will get when the elite employs a tax rate according to the preferences of the poor, the elite will employ a tax rate that prevents a revolution and therefore, there will only be a revolution if that tax rate is lower than the one preferred by the poor and there will not be a revolution if the elite employs a tax rate that is higher/equal to the tax rate preferred by the poor." (from slides ) -->
+
+
+
+
 
 \newpage
 
@@ -299,7 +397,7 @@ timeline %>% knitr::kable()
 
 ```{r plot gini index over years with major events, fig.cap=details_gi %>% pull(2)}
 
-details_gi <- read_csv("../WorldBankData/world_bank_gini/Definition and Source.csv")
+details_gi <- read_csv("../Data/WorldBankData/world_bank_gini/Definition and Source.csv")
 
 wb_data %>% 
   filter(Series_Name == "GINI index (World Bank estimate)") %>% 
@@ -319,7 +417,7 @@ wb_data %>%
 
 ```{r plot unemployment total, fig.cap=details_ut %>% pull(2)}
 
-details_ut <- read_csv("../WorldBankData/Unemployment_percent_of_total_labor_force/Definition and Source.csv") 
+details_ut <- read_csv("../Data/WorldBankData/Unemployment_percent_of_total_labor_force/Definition and Source.csv") 
 
 no_change_over_time <- wb_data %>% 
   filter(Series_Name == "Unemployment, total (% of total labor force) (modeled ILO estimate)",
@@ -342,16 +440,16 @@ wb_data %>%
 
 ## Unemployment
 
-- Tunesia: unemployment decreases
+- Tunisia: unemployment decreases
 - Cost of Revolution: The result of the Arab Spring is a higher unemployment rate except for Morocco, Bahrain and Yemen the Arab
-- Strongest increase in case of Syria, Tunesia (and Libya)
+- Strongest increase in case of Syria, Tunisia (and Libya)
 - Group differences: In those countries with lower unemployment concessions were made. 
 
 \newpage
 
 ```{r plot youth unemployment, fig.cap=details_yu %>% pull(2)}
 
-details_yu <- read_csv("../WorldBankData/Youth_unemployment_percent_youth_population/Definition and Source.csv") 
+details_yu <- read_csv("../Data/WorldBankData/Youth_unemployment_percent_youth_population/Definition and Source.csv") 
 
 wb_data %>% 
   filter(Series_Name == "Share of youth not in education, employment or training, total (% of youth population)") %>% 
@@ -369,7 +467,7 @@ wb_data %>%
 
 ```{r plot other taxes, fig.cap=details_ot %>% pull(2)}
 
-details_ot <- read_csv("../WorldBankData/Other_taxes_percent_of_revenue/Definition and Source.csv") 
+details_ot <- read_csv("../Data/WorldBankData/Other_taxes_percent_of_revenue/Definition and Source.csv") 
 
 wb_data %>% 
   filter(Series_Name == "Other taxes (% of revenue)") %>% 
@@ -383,11 +481,20 @@ wb_data %>%
 \newpage
 
 
+
+## GDP 
+
+```{r}
+wb_data %>% filter(Series_Name=="GDP (current US$)") %>% 
+  plot_worldbank_data(outcomes_df) 
+```
+
+
 ## Taxes (not necessarily related to the rich / poor)
 
 ```{r plot taxes on income profits and capital gains, fig.cap=details_toipacg %>% pull(2)}
 
-details_toipacg <- read_csv("../WorldBankData/Taxes_on_income_profits_and_capital_gains_percent_of_revenue/Definition and Source.csv") 
+details_toipacg <- read_csv("../Data/WorldBankData/Taxes_on_income_profits_and_capital_gains_percent_of_revenue/Definition and Source.csv") 
 
 wb_data %>% 
   filter(Series_Name == "Taxes on income, profits and capital gains (% of revenue)") %>% 
@@ -396,9 +503,9 @@ wb_data %>%
 ```
 
 
-- in case of Egypt, Bahrain and Tunesia tax rate increases with political unrest compared to period before
-- in case of Jordan and Morroco the tax rate declines
-- not necessarily correlated with policital unrest: state could impose higher taxes due to the costs of the revolution also on the elites
+- in case of Egypt, Bahrain and Tunisia tax rate increases with political unrest compared to period before
+- in case of Jordan and Morocco the tax rate declines
+- not necessarily correlated with political unrest: state could impose higher taxes due to the costs of the revolution also on the elites
 - taxation that affects especially the rich population? `r details_toipacg %>% pull(3)`
 
 \newpage
@@ -407,7 +514,7 @@ wb_data %>%
 
 ```{r plot taxes on international trade, fig.cap = details_toit %>% pull(2)}
 
-details_toit <- read_csv("../WorldBankData/Taxes_on_international_trade_percent_of_revenue/Definition and Source.csv")
+details_toit <- read_csv("../Data/WorldBankData/Taxes_on_international_trade_percent_of_revenue/Definition and Source.csv")
 
 wb_data %>% 
   filter(Series_Name == "Taxes on international trade (% of revenue)") %>% 
@@ -423,7 +530,7 @@ wb_data %>%
 
 ```{r customs and other import duties, fig.cap=details_caoid %>% pull(2)}
 
-details_caoid <- read_csv("../WorldBankData/Costums_and_other_import_duties_percent_of_tax_revenue/Definition and Source.csv") 
+details_caoid <- read_csv("../Data/WorldBankData/Costums_and_other_import_duties_percent_of_tax_revenue/Definition and Source.csv") 
 
 wb_data %>% 
   filter(Series_Name == "Customs and other import duties (% of tax revenue)") %>% 
