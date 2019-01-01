@@ -1,10 +1,10 @@
 ---
 # abstract: "Is there empirical evidence for Acemoglu and Robinson's model from the Arabic Spring? More precisely, under which conditions does inequality predict a revolution? The analyses will present an overview of the outcomes of the revolution."
-toc: true
 bibliography: bib.bib
 geometry: margin=2.4cm
 output: 
-  bookdown::pdf_document2:
+  pdf_document:
+    toc: true
     number_sections: true
     includes:
       in_header: tex_styles.sty
@@ -14,8 +14,8 @@ output:
         - declaration.Rmd
 ---
 
-\newpage
 
+\newpage
 \listoffigures
 
 ```{r setup, include=FALSE}
@@ -29,6 +29,17 @@ library(tidyverse); library(lubridate); library(wesanderson)
 
 
 ```{r costum functions}
+# returns a single numeric value from the world bank dataframe
+get_value <- function(.df, .Year, .Country_Name, .Series_Name){
+  
+  income_share <- .df %>% 
+    filter(str_detect(Series_Name, .Series_Name), 
+           Country_Name == .Country_Name, 
+           year(Year) == .Year) %>% 
+    pull(value)
+  
+  return(income_share)
+}
 
 tidy_worldbank_data <- function(.dataframe){
   
@@ -256,14 +267,9 @@ However, the extent to which the elites are able to profit from their political 
 $$V^p=y^p=\frac{(1-\theta)\bar{y}}{1-\delta}.$$
 However, revolutions are costly not only for the elite that looses their privileges in the existing regime. It is reasonable that revolutionary events imply disorder and destruction, so that the productivity of the economy shrinks. Stated differently, there is a fraction $\mu$ that is destroyed during the revolution so that the rest $1-\mu$ can be distributed among the poor. Thus, the utility $V^P(R, \mu)$ of a poor agent in the postrevolutionary society, conditional on that fraction $\mu$, is given by
 $$ V^P(R, \mu)=\frac{(1-\mu)\bar{y}}{1-\delta}.$$
-This inidicates, that total income available denoted by $(1-\mu)\bar{y}$ will be devided among the poor population $1-\delta$. From these equations Acemoglu and Robinson derive the first result for nondemocracies: The extent to which the elites can define policies to their benefit is restricted by the utility of the poor. In other words, the revolution constraint binds if the potential income of a poor in a postrevolutionary society is greater than his current income $y^p$:
+This inidicates, that total income available denoted by $(1-\mu)\bar{y}$ will be devided among the poor population $1-\delta$. From these equations Acemoglu and Robinson derive the first result for nondemocracies: The extent to which the elites can define policies to their benefit is restricted by the utility of the poor. In other words, the revolution constraint binds if the potential income of a poor agent in a postrevolutionary society is greater than his current income $y^p$:
 $$ \frac{(1-\mu)\bar{y}}{1-\delta} > y^p$$
-
-As explained in more detail in the appendix of this paper, this equation is equivalent to $\mu<\theta$.
-
-This result implies that individuals behave strategically under conditions of complete information. On the one hand, this assumption allows the authors to create a model that allows to make prediction about the likelyhood of a revolution based on economic indicators. On the other hand, the flexibility of the model achieved by this reduction of complexity requires the model to be tested empirically. Would the model have predicted the revolutionary movements of the Arab Spring?
-
-
+Still, this result implies that individuals behave strategically under conditions of complete information. On the one hand, this assumption allows the authors to create a model that allows to make prediction about the likelyhood of a revolution based on economic indicators. On the other hand, the flexibility of the model achieved by this reduction of complexity requires the model to be tested empirically. Would the model have predicted the revolutionary movements of the Arab Spring?
 
 ```{r check income data for completeness, eval=FALSE}
 # check if data is in appropriate folder 
@@ -291,8 +297,7 @@ wb_data %>%
 # we can now aggregate the data
 ```
 
-
-```{r aggregated-income-share, out.width="90%", fig.cap="Aggregated income share of lower 80%"}
+```{r aggregated-income-share, fig.height=3.5, fig.width=6.5, fig.cap="Aggregated income share of lower 80%"}
 
 percent_calculated <- wb_data %>%  
   filter(str_detect(Series_Name, "Income share held by (lowest|second|third|fourth) 20%")) %>%  
@@ -309,7 +314,7 @@ income_lower_80 %>%
   plot_worldbank_data(outcomes_df)
 ```
 
-```{r plot income share highest 20, fig.cap=details_income_share_highest_20 %>% pull(2), eval=FALSE}
+```{r plot-income-share-highest-20, fig.cap=details_income_share_highest_20 %>% pull(2), eval=FALSE}
 details_income_share_highest_20 <- read_csv("../Data/WorldBankData/Income_share_highest_20_percent/Definition and Source.csv")
 
 wb_data %>% 
@@ -319,30 +324,22 @@ wb_data %>%
   plot_worldbank_data(outcomes_df)
 ```
 
-```{r function to extract income share}
-# returns a single numeric value
-get_income <- function(.df, .Year, .Country_Name, .Series_Name){
-  
-  income_share <- .df %>% 
-    filter(str_detect(Series_Name, .Series_Name), 
-           Country_Name == .Country_Name, 
-           year(Year) == .Year) %>% 
-    pull(value)
-  
-  return(income_share)
-}
-```
+Although the income data are only available for Egypt and Djibouti, the World Bank database provides evidence for the hypothesized relation between the distribution of incomes and a countries vulnarability for revolutions. Indeed, figure \@ref(fig:aggregated-income-share) shows that the income share accruing to the lower 80% of Egypt's population increased from `r get_value(income_lower_80, 2010, "Egypt", "lower 80%")`% in 2010 to `r get_value(income_lower_80, 2012, "Egypt", "lower")`% in 2012, one after the major events of the Arab Spring. This development generally supports Acemoglu and Robinson's idea that revolutions occur when citizens can reasonably assume to gain more than they loose. Notably, the incomes of the top 20% deminished in this period from `r get_value(wb_data, 2010, "Egypt", "highest 20%")`% to `r get_value(wb_data, 2012, "Egypt", "highest 20%")`%. Therefore, it seems reasonable that the improvement of the poor was at the expense of the elite. Undoubtedly, this variation might be due to other factors than to the consequences of the revolutionary movements. However, the literature generally supports this interpretation. 
 
-Although the relevant indicators are only available for Egypt and Djibouti, the World Bank database provides evidence for the hypothesized relation between the distribution of incomes and a countries vulnarability for revolutions. Indeed, figure \@ref(fig:aggregated-income-share) shows that the income share accruing to the lower 80% of Egypt's population increased from `r get_income(income_lower_80, 2010, "Egypt", "lower 80%")`% in 2010 to `r get_income(income_lower_80, 2012, "Egypt", "lower")`% in 2012, one after the major events of the Arab Spring. This development generally supports Acemoglu and Robinson's idea that revolutions occur when citizens can reasonably assume to gain more than they loose. Notably, the incomes of the top 20% deminished in this period from `r get_income(wb_data, 2010, "Egypt", "highest 20%")`% to `r get_income(wb_data, 2012, "Egypt", "highest 20%")`%. Therefore, it seems reasonable that the improvement of the poor was at the expense of the elite. Undoubtedly, this variation might be due to other factors than to the consequences of the revolutionary movements. However, the literature generally supports this interpretation. 
+---
+
+So far, this equation allows to make predictions about the occurence of revolutions on the level of individual preference. As explained in more detail in the appendix of this paper, however, this equation can be rearranged to
+$$\mu<\theta$$ 
+which allows to abstract from individidual income to macroecomic indicators. Thus, the model predicts a revolution, if the fraction of the resources that are destroyed during the revolution is smaller than the income accuring to the rich.[^comment_on_excluding_tax_rate] 
+
+In order to validate this alternative version of the prediction we need to find a plausible estimate for $\mu$. It seems reasonable to choose the Gross Domestic Product (GDP) or GDP per capita in order to obtain an approximation of the resources destroyed during the events of the Arab Spring. Interestingly, except for Jemen, Lybia and Syria, countries that descended into civil war, the Arab World experienced an economic growth. Although it cannot be excluded that the economic growth could have larger without the events of the Arab Spring, this might lead the to conclusion that citizens did not have to expect a significantly negative economic impact. In terms of the model, if anything, $\mu$ would be less or equal to zero. Regarding $\theta$, the income accruing to rich, is equal to or even less than zero. Consequently, the revolution constraint holds since $\mu<\theta$. 
 
 
 
+[^comment_on_excluding_tax_rate]: It should be noted that according to model the occurence of a revolution also depends on the policies in the postrevolutionary society. In their game theoretical considerations Acemoglu and Robinson [-@acemoglu2006origins] discuss the level of taxation in particular. However, this paper discusses a simpler version of the model due to a lack of appropriate data. 
 
 
-
-
-
-```{r plot GDP per capita, fig.cap=details_gdp_capita %>% pull(2)}
+```{r plotGDPpercapita, out.width='90%', fig.cap=details_gdp_capita %>% pull(2)}
 details_gdp_capita <- read_csv("../Data/WorldBankData/GDP_per_capita/Definition and Source.csv")
 
 wb_data %>% 
@@ -569,7 +566,9 @@ wb_data %>%
 
 ## GDP 
 
-```{r}
+```{r gdp, fig.cap=details_gdp  %>% pull(2)}
+details_gdp <- read_csv("../Data/WorldBankData/GDP/Definition and Source.csv")
+
 wb_data %>% filter(Series_Name=="GDP (current US$)") %>% 
   plot_worldbank_data(outcomes_df) 
 ```
@@ -577,7 +576,7 @@ wb_data %>% filter(Series_Name=="GDP (current US$)") %>%
 
 ## Taxes (not necessarily related to the rich / poor)
 
-```{r plot taxes on income profits and capital gains, fig.cap=details_toipacg %>% pull(2)}
+```{r plot taxes on income profits and capital gains, fig.cap=details_toipacg %>% pull(2), eval=F}
 
 details_toipacg <- read_csv("../Data/WorldBankData/Taxes_on_income_profits_and_capital_gains_percent_of_revenue/Definition and Source.csv") 
 
@@ -585,13 +584,15 @@ wb_data %>%
   filter(Series_Name == "Taxes on income, profits and capital gains (% of revenue)") %>% 
   plot_worldbank_data(outcomes_df) 
 
+#- in case of Egypt, Bahrain and Tunisia tax rate increases with political unrest compared to period before
+#- in case of Jordan and Morocco the tax rate declines
+#- not necessarily correlated with political unrest: state could impose higher taxes due to the costs of the revolution also on the elites
+#- taxation that affects especially the rich population? `r details_toipacg %>% pull(3)`
+
 ```
 
 
-- in case of Egypt, Bahrain and Tunisia tax rate increases with political unrest compared to period before
-- in case of Jordan and Morocco the tax rate declines
-- not necessarily correlated with political unrest: state could impose higher taxes due to the costs of the revolution also on the elites
-- taxation that affects especially the rich population? `r details_toipacg %>% pull(3)`
+
 
 \newpage
 
@@ -613,7 +614,7 @@ wb_data %>%
 - Concessions and international trade
 
 
-```{r customs and other import duties, fig.cap=details_caoid %>% pull(2)}
+```{r customs and other import duties, fig.cap=details_caoid %>% pull(2), eval=F}
 
 details_caoid <- read_csv("../Data/WorldBankData/Costums_and_other_import_duties_percent_of_tax_revenue/Definition and Source.csv") 
 
@@ -623,9 +624,6 @@ wb_data %>%
 ```
 
 
-- Definition: `r details_caoid %>% pull(3)`
-
-\newpage
 
 
 <!-- Notes:  -->
