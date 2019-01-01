@@ -2,9 +2,9 @@
 # abstract: "Is there empirical evidence for Acemoglu and Robinson's model from the Arabic Spring? More precisely, under which conditions does inequality predict a revolution? The analyses will present an overview of the outcomes of the revolution."
 toc: true
 bibliography: bib.bib
-geometry: margin=1.6cm
+geometry: margin=2.4cm
 output: 
-  pdf_document:
+  bookdown::pdf_document2:
     number_sections: true
     includes:
       in_header: tex_styles.sty
@@ -47,7 +47,8 @@ tidy_worldbank_data <- function(.dataframe){
 
 plot_worldbank_data <- function(.dataframe, .outcomes_df){
   
-  country_names <- .outcomes_df %>% pull(Country_Name)
+  # get names of countries except for those that descended to civil war
+  country_names <- .outcomes_df %>% filter(Overall_Consequences != "Civil War") %>% pull(Country_Name)
   
   arab_countries <- data_frame(
     # countries mentioned in the context of arab spring 
@@ -66,24 +67,29 @@ plot_worldbank_data <- function(.dataframe, .outcomes_df){
                  )[1:length(country_names)]
   )
   
-  # with gather() the last column contains the value
-  value_col <- ncol(.dataframe)
+  # rename last column to value column if it does not exist
+  if(!"value" %in% names(.dataframe)){
+    .dataframe <- .dataframe %>% rename_at(ncol(.dataframe), ~paste("value"))
+  }
+  
 
   # prepare dataframe to plot 
   # join details countries that correspond to the countries in manually collected data
   more1_observation <- .dataframe %>%
     filter(str_detect(Country_Name, paste0(country_names, collapse = "|")), 
-          !is.na(.dataframe[value_col])) %>% 
+          !is.na(value)
+          ) %>% 
     left_join(.outcomes_df %>% 
                 select(-Country_Name) %>% 
-                mutate(Overall_Consequences = Overall_Consequences %>% str_replace(" ", "\n")), by = "Country_Code")
+                mutate(Overall_Consequences = Overall_Consequences %>% str_replace(" ", "\n")), 
+              by = "Country_Code")
   
   # define x and y coordinates of plot according to the time of the event
   plot_coordinates <- data_frame(
     xmin = min(timeline$Date),
     xmax = max(timeline$Date),
-    ymin = min(more1_observation[value_col], na.rm = T),
-    ymax = max(more1_observation[value_col], na.rm = T)
+    ymin = min(more1_observation$value, na.rm = T),
+    ymax = max(more1_observation$value, na.rm = T)
   )
   
   # indicate area of major events of arab spring in plot
@@ -113,9 +119,9 @@ plot_worldbank_data <- function(.dataframe, .outcomes_df){
   )
   
   plot <- ggplot(more1_observation,
-                 aes_string(x = "Year", y = names(.dataframe[value_col]),
-                            color = "Country_Name", 
-                            shape = "Overall_Consequences")) +
+                 aes(x = Year, y = value,
+                            color = Country_Name, 
+                            shape = Overall_Consequences)) +
     geom_point(size = 1.5) +
     geom_line() +
     aesthetic_layers 
@@ -148,8 +154,6 @@ outcomes_df <- googlesheets::gs_key("1HcxeQTFjCeNM5yWhh94XMLUVzj7GaL4F8Hjqwy8tOy
 
 # save file  
 # saveRDS(outcomes_df, paste0("../Data/gsheet_outcomes_", Sys.Date(), ".rds")) 
-
-
 ```
 
 
@@ -229,6 +233,8 @@ The question under which conditions these regime changes occur and consolidate i
 The focus of this paper is to relate Acemoglu and Robinson's [-@acemoglu2006origins] theoretical account to empirical findings on economic origins and outcomes of the Arabic Spring from existing literature and key economic indicators taken from the World Bank's database. Still, this interpretative approach provides evidence for Acemoglu and Robinson's theoretical framework that can be put to test with a more elaborated methodological approach.
 
 - mention that I will mainly discuss nondemocracies 
+- mention that I will exclude countries that descended in civil war `r outcomes_df %>% filter(Overall_Consequences == "Civil War") %>% pull(Country_Name)`
+
 - power centretered in small groups closely connected to Mubarak in Egypt or Ben Ali in Tunesia, people were not given enough
 - concessions from the Mubarak regime were not credibel
 - ultimately, like in the case of britain transitions to democracy mean economic growth 
@@ -246,29 +252,110 @@ Acemoglu and Robinson [-@acemoglu2006origins] provide a theoretical framework fo
 ## The Revolution Constraint
 
 In the absence of any checks on their power the elites would be eligible to choose the policies that are most beneficial to them (Ibid, 120). Since individual economic incentive determine political attitudes there would be no redistribution to the poor or the middle classes. In the terminology of Acemoglu and Robinson's model the elites, denoted by $\delta$, would set set tax rate $\tau^r$ equal to $0$.
-However, the extent to which the elites are able to profit from their political power is restricted by the danger that other groups might attempt to overthrow the incumbent regime. It follows that the danger of a revolution puts a constraint on the policies of the elites in nondemocracy. In the first place, Acemoglu and Robinson argue that the likelyhood of a revolution depends on the citizens income $y^p$. In a nondemocracy $N$ the tax rate $\tau^r$ is set by the elites so that the utility of the poor is given by
-$$V^p=y^p=(y^p|\tau^N = \tau^r).$$
-However, revolutions are costly not only for the elite that looses their privileges in the existing regime. It is reasonable that revolutionary events imply disorder and distruction, so that the productivity of the economy shrinks. Stated differently, there is a fraction $\mu$ that is destroyed during the revolution so that the rest $1-\mu$ can be distributed among the poor. Thus, the utility $V^P(R, \mu)$ of a poor agent in the postrevolutionary society, condition on that fraction $\mu$, is given by
+However, the extent to which the elites are able to profit from their political power is restricted by the danger that other groups might attempt to overthrow the incumbent regime. It follows that the danger of a revolution puts a constraint on the policies of the elites in nondemocracy. In the first place, Acemoglu and Robinson (Ibid, 121) argue that the likelyhood of a revolution depends on the citizens utility in terms of their income $y^p$ before and after a successful revolution. Let $1-\theta$ denote the total income accruing to the poor population, $\bar{y}$ the average income and $1-\delta$ the share of the total population that belongs to the poor. Then, the income of a poor agent before a revolution is given by
+$$V^p=y^p=\frac{(1-\theta)\bar{y}}{1-\delta}.$$
+However, revolutions are costly not only for the elite that looses their privileges in the existing regime. It is reasonable that revolutionary events imply disorder and destruction, so that the productivity of the economy shrinks. Stated differently, there is a fraction $\mu$ that is destroyed during the revolution so that the rest $1-\mu$ can be distributed among the poor. Thus, the utility $V^P(R, \mu)$ of a poor agent in the postrevolutionary society, conditional on that fraction $\mu$, is given by
 $$ V^P(R, \mu)=\frac{(1-\mu)\bar{y}}{1-\delta}.$$
-This inidicates, that total income available denoted by $(1-\mu)\bar{y}$ will be devided among the poor population $1-\delta$. From these equation Acemoglu and Robinson derive the first result for nondemocracies: The extent to which the elites can define policies to their benefit is restricted by the utility of the poor. In other words, the revolution constraint binds if the potential income of a poor in a postrevolutionary society is greater than his current income: 
+This inidicates, that total income available denoted by $(1-\mu)\bar{y}$ will be devided among the poor population $1-\delta$. From these equations Acemoglu and Robinson derive the first result for nondemocracies: The extent to which the elites can define policies to their benefit is restricted by the utility of the poor. In other words, the revolution constraint binds if the potential income of a poor in a postrevolutionary society is greater than his current income $y^p$:
 $$ \frac{(1-\mu)\bar{y}}{1-\delta} > y^p$$
-This implies that individuals behave strategically under conditions of complete information. On the one hand, this assumption allows the authors to create a model that allows to make prediction about the likelyhood of a revolution based on economic indicators. On the other hand, the flexibility of the model achieved by this reduction of complexity requires the model to be tested empirically. Would the model have predicted the revolutionary movements of the Arab Spring?
+
+As explained in more detail in the appendix of this paper, this equation is equivalent to $\mu<\theta$.
+
+This result implies that individuals behave strategically under conditions of complete information. On the one hand, this assumption allows the authors to create a model that allows to make prediction about the likelyhood of a revolution based on economic indicators. On the other hand, the flexibility of the model achieved by this reduction of complexity requires the model to be tested empirically. Would the model have predicted the revolutionary movements of the Arab Spring?
+
+
+
+```{r check income data for completeness, eval=FALSE}
+# check if data is in appropriate folder 
+tibble(folder_name = list.files("../Data/WorldBankData", pattern = "Income"),
+       meta_data = list.files("../Data/WorldBankData", pattern = "Income", full.names = T) %>%
+         list.files(pattern = "Definition", full.names = T) %>% 
+         map(~ read_csv(.) %>% select(`Indicator Name`)) %>% unlist())
+
+# are the 3 required variables available?
+wb_data %>% 
+  filter(str_detect(Series_Name, "Income share held by (lowest|second|third) 20%")) %>% 
+  distinct(Series_Name)
+
+# are there any mising income data within countries at a given point of point?
+# there must be either 3 or zero values available
+wb_data %>% 
+  # select only discussed countries 
+  semi_join(outcomes_df, by = "Country_Name") %>% 
+  # select only relevent variables
+  filter(str_detect(Series_Name, "Income share held by (lowest|second|third) 20%")) %>% 
+  group_by(Country_Name, Year) %>% 
+  summarise(not_NA_count = sum(!is.na(value)))
+  filter(!not_NA_count %in% c(0, 3))
+
+# we can now aggregate the data
+```
+
+
+```{r aggregated-income-share, out.width="90%", fig.cap="Aggregated income share of lower 80%"}
+
+percent_calculated <- wb_data %>%  
+  filter(str_detect(Series_Name, "Income share held by (lowest|second|third|fourth) 20%")) %>%  
+  distinct(Series_Name) %>% 
+  pull() %>% str_extract("held by.+") %>% str_extract("[0-9]+") %>% as.numeric() %>% sum()
+
+income_lower_80 <- wb_data %>% 
+  filter(str_detect(Series_Name, "Income share held by (lowest|second|third|fourth) 20%")) %>% 
+  group_by(Year, Country_Name, Country_Code) %>% 
+  summarise(value = sum(value))  %>% 
+  mutate(Series_Name = paste0("Aggregated income share of lower ", percent_calculated, "%")) 
+
+income_lower_80 %>% 
+  plot_worldbank_data(outcomes_df)
+```
+
+```{r plot income share highest 20, fig.cap=details_income_share_highest_20 %>% pull(2), eval=FALSE}
+details_income_share_highest_20 <- read_csv("../Data/WorldBankData/Income_share_highest_20_percent/Definition and Source.csv")
+
+wb_data %>% 
+  filter(str_detect(Series_Name, "Income share held by highest 20%")) %>% 
+  group_by(Year, Country_Name, Country_Code, Series_Name) %>% 
+  summarise(value = sum(value)) %>% 
+  plot_worldbank_data(outcomes_df)
+```
+
+```{r function to extract income share}
+# returns a single numeric value
+get_income <- function(.df, .Year, .Country_Name, .Series_Name){
+  
+  income_share <- .df %>% 
+    filter(str_detect(Series_Name, .Series_Name), 
+           Country_Name == .Country_Name, 
+           year(Year) == .Year) %>% 
+    pull(value)
+  
+  return(income_share)
+}
+```
+
+Although the relevant indicators are only available for Egypt and Djibouti, the World Bank database provides evidence for the hypothesized relation between the distribution of incomes and a countries vulnarability for revolutions. Indeed, figure \@ref(fig:aggregated-income-share) shows that the income share accruing to the lower 80% of Egypt's population increased from `r get_income(income_lower_80, 2010, "Egypt", "lower 80%")`% in 2010 to `r get_income(income_lower_80, 2012, "Egypt", "lower")`% in 2012, one after the major events of the Arab Spring. This development generally supports Acemoglu and Robinson's idea that revolutions occur when citizens can reasonably assume to gain more than they loose. Notably, the incomes of the top 20% deminished in this period from `r get_income(wb_data, 2010, "Egypt", "highest 20%")`% to `r get_income(wb_data, 2012, "Egypt", "highest 20%")`%. Therefore, it seems reasonable that the improvement of the poor was at the expense of the elite. Undoubtedly, this variation might be due to other factors than to the consequences of the revolutionary movements. However, the literature generally supports this interpretation. 
+
+
+
+
+
+
+
 
 ```{r plot GDP per capita, fig.cap=details_gdp_capita %>% pull(2)}
 details_gdp_capita <- read_csv("../Data/WorldBankData/GDP_per_capita/Definition and Source.csv")
 
-
 wb_data %>% 
   filter(Series_Name=="GDP per capita (current US$)") %>% 
-  plot_worldbank_data(outcomes_df) +
-  scale_x_date(limits = c(as.Date("1990-01-01"), as.Date("2017-01-01")),
-               labels = scales::date_format("%Y"),
-               breaks = '2 years')
+  plot_worldbank_data(outcomes_df) 
 ```
+
 
 ## Collective Action Problem
 
-
+```{r include bpb infographic}
+knitr::include_graphics("../Figures/bpb_arabischer_fruehling.jpg")
+```
 
 
 Therefore, in nondemocracies the elites might have the \textit{de jure} political power that they allocate from the incumbent system. Nevertheless, citizens may obtain the \textit{de facto} political power if they are able to coordinate their actions. 
@@ -310,9 +397,7 @@ More specifically, the interest of this paper is twofold:
 
 [^appendix]: The appendix of this paper contains an overview of the major events and outcomes of the Arab Spring for each country provided by the "Bundeszentrale für politische Bildung", a federal public authority providing citizenship education and information on political issues for all people in Germany.
 
-```{r include bpb infographic}
-knitr::include_graphics("../Figures/bpb_arabischer_fruehling.jpg")
-```
+
 
 \newpage
 

@@ -1,1 +1,16 @@
+\newpage
+
+Derivation of the revolution constraint 
+
+$$ 
+\begin{aligned}
+&                &\frac{(1-\mu)\bar{y}}{1-\delta}  & >y^p \\
+&\Leftrightarrow & \frac{(1-\mu)\bar{y}}{1-\delta} & >\frac{(1-\theta)\bar{y}}{1-\delta} && \left|\ \text{Multiply by } \frac{1}{\bar{y}} \text{ and } (1-\delta)\right. \\
+&\Leftrightarrow & 1-\mu                           & > 1-\theta && \left|\ -1\right. \\ 
+&\Leftrightarrow & -\mu                            & > -\theta && \left|\ \text{Multiply by } (-1)\right. \\
+&\Leftrightarrow & \mu                             & < \theta 
+\end{aligned}
+$$
+\newpage
+
 \includepdf[pages={-},scale=0.9]{../Figures/Naher_Osten_S76.pdf}
