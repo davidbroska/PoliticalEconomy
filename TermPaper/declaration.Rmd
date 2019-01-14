@@ -1,3 +1,5 @@
+\newpage
+\pagenumbering{gobble}
 I hereby declare that the work in this \MakeLowercase{\AssignmentName} 
 \vspace{0,25 em}
 \begin{center} 

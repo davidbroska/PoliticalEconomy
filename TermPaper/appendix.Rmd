@@ -1,4 +1,6 @@
-\newpage
+
+
+\pagenumbering{gobble}
 
 Derivation of the revolution constraint 
 
